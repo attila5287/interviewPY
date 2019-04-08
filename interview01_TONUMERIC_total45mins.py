@@ -35,3 +35,21 @@ problem_1('AK')
 problem_1()
 # 'Median for CO state Debt-to-income-ratio is 18.48 percent'
 
+from interview01_functions import(
+    bringStateList
+)
+
+def makeEmRain():
+    """"
+    RUNS problem_1(state) FUNCTION FOR ALL STATES IN DATASET
+    RETURNS NONE PRINTS 
+    """
+    
+    state_list = bringStateList()
+    for state in state_list:
+        problem_1(state)
+    return None
+
+
+
+makeEmRain()
