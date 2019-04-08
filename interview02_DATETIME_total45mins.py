@@ -44,7 +44,8 @@ def problem_2(date_start, date_end):
         RETURNS A DATAFRAME DT-DATE INDEXED GROUPED UNDER MONTHLY FREQ
         //IGNORES DAY ON INPUT DATES AND RETURNS MONTHLY GROUPED REJECTION COUNT AS VALUES// 
         """
-        BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+        # BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+        BASE_DIR = os.getcwd()
         FILE_NAME_RJCT = 'loan_declines.csv'
         path_rejected = os.path.join(BASE_DIR, FILE_NAME_RJCT)
         dataRejected = pd.read_csv(path_rejected)
@@ -58,7 +59,7 @@ def problem_2(date_start, date_end):
         date_start_adj = adjustDatetime(date_start)
         __df = rejectedFinal_df.loc[date_start_adj:date_end]
         return __df
-
+ 
 #-II- just like above but only reads abt 45 thousand row csv file
 # again will mostly be used for internal calc since it returns a dataframe
     def monthlyLoanApprovedDFramer(date_start,date_end):
@@ -181,4 +182,46 @@ def problem_2(date_start, date_end):
 
     return _outFnlDict
 # =====================================================================
-problem_2(TEST_STARTDATE,TEST_ENDDATE)
+# problem_2(TEST_STARTDATE,TEST_ENDDATE)
+# ------------------ USER INPUT -----------------
+# start date  : 2011-1-2
+# end date    : 2011-4-5
+# -------------- AGGREGATE BY MONTH -------------
+# first month : January of 2011
+# last month  : April of 2011
+#  -------------- DICTIONARY - KEYS -------------
+# [dict_keys(['2011-01-01', '2011-02-01', '2011-03-01', '2011-04-01'])]
+#  ------------- DICTIONARY - VALUES -----------
+# [dict_values(['9.1% ', '8.1% ', '7.5% ', '8.2% '])]
+#  -------------- RESULTS - TEST EX  -----------
+# 2011-01-01 | 9.1%
+# 2011-02-01 | 8.1%
+# 2011-03-01 | 7.5%
+# 2011-04-01 | 8.2%
+#  ------------------ THE-END  ------------------
+
+TEST_STARTDATE0 = '2008-4-6'
+TEST_ENDDATE0 = '2009-1-2'
+
+
+problem_2(TEST_STARTDATE0,TEST_ENDDATE0)
+
+# -------------- AGGREGATE BY MONTH -------------
+# first month : April of 2008
+# last month  : January of 2009
+#  -------------- DICTIONARY - KEYS -------------
+# [dict_keys(['2008-04-01', '2008-05-01', '2008-06-01', '2008-07-01', '2008-08-01', '2008-09-01', '2008-10-01', '2008-11-01', '2008-12-01', '2009-01-01'])]
+#  ------------- DICTIONARY - RESULTS -----------
+# [dict_values(['8.3% ', '8.8% ', '8.4% ', '10.1% ', '7.3% ', '5.4% ', '5.0% ', '6.0% ', '7.2% ', '8.0% '])]
+#  -------------- DICTIONARY - PAIRS  -----------
+# 2008-04-01 | 8.3%
+# 2008-05-01 | 8.8%
+# 2008-06-01 | 8.4%
+# 2008-07-01 | 10.1%
+# 2008-08-01 | 7.3%
+# 2008-09-01 | 5.4%
+# 2008-10-01 | 5.0%
+# 2008-11-01 | 6.0%
+# 2008-12-01 | 7.2%
+# 2009-01-01 | 8.0%
+#  ------------------ THE-END  ------------------
