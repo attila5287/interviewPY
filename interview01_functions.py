@@ -37,8 +37,8 @@ def makeEmallRain():
     state_list = list(rejected_df['State'].unique())
     for state in state_list:
         print(" ---------------------- ================ ")
-        state_med1an = state_med1an_df[state ]
-        _out_prompt = str("Median for " + state + " state Debt-to-income-ratio is " + str(state_med1an) + " percent")
+        state_med1an = state_med1an_df['debt2income'][state]
+        _out_prompt = str("Median for " + str(state) + " state Debt-to-income-ratio is " + str(state_med1an) + " percent")
         print(_out_prompt)  
         print(" ====================== ---------------- ")
     
@@ -46,3 +46,5 @@ def makeEmallRain():
 
 
 makeEmallRain()
+
+
