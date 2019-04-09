@@ -31,20 +31,14 @@ def makeEmallRain():
     mini_rej_df = rejected_df[[target_col, 'State']]
     mini_rej_df['numbers_str'] = [percentage[:-1] for percentage in mini_rej_df[target_col]]
     mini_rej_df['debt2incomeRatio'] = pd.to_numeric(mini_rej_df['numbers_str'])
-    state_med1an_df = mini_rej_df.groupby('State').median()['debt2incomeRatio']
-    
-    # --------------------
-    state_list = list(rejected_df['State'].unique())
-    for state in state_list:
-        print(" ---------------------- ================ ")
-        state_med1an = state_med1an_df['debt2income'][state]
-        _out_prompt = str("Median for " + str(state) + " state Debt-to-income-ratio is " + str(state_med1an) + " percent")
-        print(_out_prompt)  
-        print(" ====================== ---------------- ")
-    
+    state_med1an_df = pd.DataFrame(mini_rej_df.groupby('State').median())
+#     print(state_med1an_df.index)
+    print(" ================ DESCRIPTION ----------------- ")
+    print(state_med1an_df.describe())
+    print(" =========== STATE-DEBT-TO-IN-RAT-MEDIAN ------ ")
+    print(state_med1an_df['debt2incomeRatio'])
+    print("  --------------- ================ ")
     return None
 
 
 makeEmallRain()
-
-
