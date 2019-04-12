@@ -72,6 +72,12 @@ def makeEmallRain():
 
 def makeEmAllRainFmt():
     pass
+    """
+    MODIFIED VERSION OF makeEmallRain(), READS CSV ONCE AT THE BEGINNING
+    VIA smoothPathCompiler() CREATES DATAFRAME, SORTS DEBT-TO-INCOME VALUES DESC.
+    RETURNS NONE, PRINTS ALL STATES AND THEIR RESPECTIVE D-T-I PERCENTAGES VIA LOOP
+    """
+    
     file_path_compiled = smoothPathCompiler()    
     _df = pd.read_csv(file_path_compiled)
     _df = _df[['State','Debt-To-Income Ratio']] #get rid of all other columns
@@ -80,8 +86,7 @@ def makeEmAllRainFmt():
     _df['debt2income'] = pd.to_numeric(_df['debt2income'])  # now its float =)
     debt_col_mod = pd.to_numeric(_df['debt2income'])
     _df = _df[['State', 'debt2income']]
-    _df = _df.groupby('State').median()['debt2income']
-    _df.sort_values(by='debt2income',ascending=False)
+    _df = _df.groupby('State').median()['debt2income'].sort_values(ascending=False)
     print("_State_________debt2income_")
     for _state in _df.index:
         _out_debt = _df[_state]

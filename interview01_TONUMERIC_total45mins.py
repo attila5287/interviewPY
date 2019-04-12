@@ -48,15 +48,23 @@ problem_1() # OR NO ARGUMENT NO INPUT AT ALL
 # =====================================================================
 # 1A. ADVANCED: Write a function called problem_1_advanced() that returns 
 # the median Debt to income ratio of rejected loan applications for all states in dataset
+# 
 # =====================================================================
 # FIRST APPROACH: since we have a function that returns for a single state, problem_1 why dont we
 # run the same darn thing for all states. huh? 
+# 
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-# makeEmRain  *** WRRRRONG! READS CSV FOR EVERY SINGLE OUTPUT FOR FIFTY-TWO STATES  ***
+# 
+# makeEmRain  *** WRRRRONG! CRAZY-SLOW! READS CSV FOR EVERY SINGLE OUTPUT FOR FIFTY-TWO STATES  ***
+
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 # SECOND APPROACH: lets try to modify problem_1 thus returns debt2incomeRatio for all states
 # while performing these calculations with a single read of csv file, in contrary to makeEmRain
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 # makeEmallRain() 
+
+
 # -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 # SECOND APPROACH + COSMETICS = makeEmAllRainFormatted() that returns a list consisting of percentage-style-formatted values for each state
+makeEmAllRainFmt()
+
