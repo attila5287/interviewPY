@@ -81,11 +81,12 @@ def makeEmAllRainFmt():
     debt_col_mod = pd.to_numeric(_df['debt2income'])
     _df = _df[['State', 'debt2income']]
     _df = _df.groupby('State').median()['debt2income']
+    _df.sort_values(by='debt2income',ascending=False)
     print("_State_________debt2income_")
     for _state in _df.index:
         _out_debt = _df[_state]
         _out_debt=_out_debt*.01
-        print(_state," : \t\t",'{:,.2%}'.format(_out_debt))
+        print(_state," : \t\t","{:,.2%}".format(_out_debt))
     # __out = _df['debt2income']
     # print(__out)
     return None
