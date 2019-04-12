@@ -2,8 +2,18 @@ import warnings; warnings.simplefilter('ignore')
 import pandas as pd
 import datetime as dt
 import os 
+
+from interview01_functions import(
+    bringStateList,
+    makeEmRain,
+    makeEmallRain,
+    smoothPathCompiler,
+    makeEmAllRainFmt
+)
+
+
 # =====================================================================
-# 1.	Write a function called problem_1, which accepts a state abbreviation (eg 'PA') and returns the median Debt to income ratio of rejected loan applications for that state.
+# 1. Write a function called problem_1, which accepts a state abbreviation (eg 'PA') and returns the median Debt to income ratio of rejected loan applications for that state.
 # =====================================================================
 def problem_1(state='CO'):
     """
@@ -28,28 +38,25 @@ def problem_1(state='CO'):
     print(_out_prompt)
     print(" ====================== ---------------- ")
     return _out_prompt
-
 # =====================================================================
-problem_1('AK')
+# problem_1('AK') # TRY WITH USER INPUT
 # 'Median for AK state Debt-to-income-ratio is 14.93 percent'
-problem_1()
+
+problem_1() # OR NO ARGUMENT NO INPUT AT ALL
 # 'Median for CO state Debt-to-income-ratio is 18.48 percent'
 
-from interview01_functions import(
-    bringStateList
-)
-
-def makeEmRain():
-    """"
-    RUNS problem_1(state) FUNCTION FOR ALL STATES IN DATASET
-    RETURNS NONE PRINTS 
-    """
-    
-    state_list = bringStateList()
-    for state in state_list:
-        problem_1(state)
-    return None
-
-
-
-makeEmRain()
+# =====================================================================
+# 1A. ADVANCED: Write a function called problem_1_advanced() that returns 
+# the median Debt to income ratio of rejected loan applications for all states in dataset
+# =====================================================================
+# FIRST APPROACH: since we have a function that returns for a single state, problem_1 why dont we
+# run the same darn thing for all states. huh? 
+# =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+# makeEmRain  *** WRRRRONG! READS CSV FOR EVERY SINGLE OUTPUT FOR FIFTY-TWO STATES  ***
+# =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+# SECOND APPROACH: lets try to modify problem_1 thus returns debt2incomeRatio for all states
+# while performing these calculations with a single read of csv file, in contrary to makeEmRain
+# =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+# makeEmallRain() 
+# -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+# SECOND APPROACH + COSMETICS = makeEmAllRainFormatted() that returns a list consisting of percentage-style-formatted values for each state
