@@ -17,7 +17,7 @@ def problem_2(date_start, date_end):
     """
     - Accepts a date range and returns a dictionary of the percentage of loans approved over that time period.
     - Aggregatesresults by month, and includes the entire month if any part of it is in the request. 
-          For example: problem_2('2011-1-5','2011-1-7') would consider ALL records for January 2011. 
+        For example: problem_2('2011-1-5','2011-1-7') would consider ALL records for January 2011. 
     - Assumes that loans are immediately approved/funded upon application 
                 (eg. Application date/ fund date/ decline date are all equivalent.) 
     - Example call, response: problem_2(‘2011-1-2’, ‘2011-4-5’) might return
@@ -74,7 +74,8 @@ def problem_2(date_start, date_end):
         appRaw_df = pd.read_csv(file_path_approved)
         appGrpDate_df = appRaw_df.groupby('issue_d').count().reset_index().dropna()
         approvedMini_df = appGrpDate_df[['issue_d', 'policy_code']]
-        approvedMini_df['date_dt'] = [dt.datetime.strptime(issueDate,'%b-%y') for issueDate in appGrpDate_df['issue_d']]
+        approvedMini_df['date_dt'] = [dt.datetime.strptime(issueDate,'%b-%y') for issueDate in appGrpDate_df['issue_d']
+        ]
         date_start_adj = adjustDatetime(date_start) #removes the bias-offset
         return approvedMini_df.groupby('date_dt').sum()[date_start_adj : date_end]
 

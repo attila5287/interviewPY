@@ -4,6 +4,7 @@ import pandas as pd
 def smoothPathCompiler():
     """"
     RETURNS STRING THAT STORES PATH FOR CSV-JSON TO BE READ
+    FILE_NAME_CSV = 'loan_declines.csv' ONLY FOR REJECTED LOAN DATASET
     """
     BASE_DIRECTORY = os.getcwd()          # current-working-directory (CONSTANT)
     FILE_NAME_CSV = 'loan_declines.csv'   # csv file name another CST
@@ -17,6 +18,24 @@ def smoothPathCompiler():
     print("----------------------------------------------")
     return str(PATH_COMPILED)
 
+def smoothPathCompileR():
+    """"
+    RETURNS STRING THAT STORES PATH FOR CSV-JSON TO BE READ
+    FILE_NAME_CSV = 'loan_approvals.csv' ONLY FOR APPROVAL DATASET
+    """
+    BASE_DIRECTORY = os.getcwd()          # current-working-directory (CONSTANT)
+    FILE_NAME_CSV = 'loan_approvals.csv'   # csv file name another CST
+    # STATIC_FOLDER = '' # if file was a folder like static/images etc. 
+    PATH_COMPILED = os.path.join(BASE_DIRECTORY,FILE_NAME_CSV)
+    file_type = str(FILE_NAME_CSV[-3:])
+    print()
+    print("-------------smoothPathCompileR---------------")
+    print("extracting data from "+ file_type.upper() +  " file in following path:")
+    print(PATH_COMPILED)
+    print("----------------------------------------------")
+    return str(PATH_COMPILED)
+
+
 def bringStateList():
     # need 'os' operating system module to generate file path thus code runs on any pc
     BASE_DIR = os.getcwd() # base directory has the script/code
@@ -26,7 +45,7 @@ def bringStateList():
     _out_list = list(rejected_df['State'].unique())
     return _out_list
 
-bringStateList()
+# bringStateList()
 
 
 def makeEmRain():
@@ -98,5 +117,5 @@ def makeEmAllRainFmt():
 
 # ========================================================
 
-makeEmAllRainFmt()
+# makeEmAllRainFmt()
 
