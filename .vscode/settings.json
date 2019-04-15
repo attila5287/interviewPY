@@ -1,3 +1,5 @@
 {
-    "python.pythonPath": "C:\\Users\\DENVER\\.conda\\envs\\her0ku_env\\python.exe"
+    "python.pythonPath": "C:\\Users\\DENVER\\.conda\\envs\\her0ku_env\\python.exe",
+    "git.showProgress": false,
+    "diffEditor.renderIndicators": false
 }

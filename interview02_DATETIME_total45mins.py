@@ -52,7 +52,9 @@ def problem_2(date_start, date_end):
         rejected_df = dataRejected.groupby('Application Date').count().reset_index().dropna()
         rejected_df = rejected_df[['Policy Code', 'Application Date']]
         rejected_df['ApplicationDate_str'] = [ str(dateApp ) for dateApp in rejected_df['Application Date'] ]
-        rejected_df['date_dt'] = [dt.datetime.strptime(dateApp,'%m/%d/%Y') for dateApp in rejected_df['ApplicationDate_str']]
+        rejected_df['date_dt'] = [
+            dt.datetime.strptime(dateApp,'%m/%d/%Y') for dateApp in rejected_df['ApplicationDate_str']
+            ]
         rejectedmini_df = rejected_df[['Policy Code','date_dt']]
         rejectedmini_df['yearM0nth'] = rejectedmini_df['date_dt'].map(lambda dt: dt.replace(day=1))
         rejectedFinal_df = rejectedmini_df.groupby('yearM0nth').sum()
@@ -224,5 +226,6 @@ problem_2(TEST_STARTDATE0,TEST_ENDDATE0)
 # 2008-10-01 | 5.0%
 # 2008-11-01 | 6.0%
 # 2008-12-01 | 7.2%
-# 2009-01-01 | 8.0%
+
 #  ------------------ THE-END  ------------------
+

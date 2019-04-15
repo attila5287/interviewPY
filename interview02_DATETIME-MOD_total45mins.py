@@ -1,3 +1,4 @@
+import warnings; warnings.simplefilter('ignore')
 import pandas as pd
 import os
 import datetime as dt
@@ -8,13 +9,11 @@ from interview01_functions import (
 )
 
 # THIS TIME TRYING TO CODE THE SIMPLEST TO WRITE/FASTEST TO RUN FUNCTION FOR COMPETITIVE EDGE ON INT'V
-def problem_2_mod(date_first = '2011-01', date_second = '2011-04'):
+def problem_2_mod(date_first = '2011-01', date_second = '2011-04', prompt_master = False):
     """
     - Accepts a date range and returns a dictionary of the percentage of loans approved over that time period.
     - Aggregates results by month, and includes the entire month if any part of it is in the request. 
-        For example: problem_2('2011-1-5','2011-1-7') would consider ALL records for January 2011. 
-    - Assumes that loans are immediately approved/funded upon application 
-        (eg. Application date/ fund date/ decline date are all equivalent.) 
+    - For example: problem_2('2011-1-5','2011-1-7') would consider ALL records for January 2011. 
     - Example call, response: problem_2(‘2011-1-2’, ‘2011-4-5’) might return
     {‘2011/1/1’ : 0.091 , ‘2011/2/1’ :  0.081, ‘2011/3/1’ :  0.074, ‘2011/4/1’ : 0.082}
     """
@@ -25,15 +24,17 @@ def problem_2_mod(date_first = '2011-01', date_second = '2011-04'):
         DATASET, DROPS COLS NANS, CREATE DATETIME THEN SETS TO INDEX
         """
         file_path_apr = smoothPathCompileR() # this is a little cheesy since the function is tailor-made
+        apr_df = pd.DataFrame()
         apr_df = pd.read_csv(file_path_apr) 
         # print(apr_df.columns) # 145 columns slows us down
         apr_df = apr_df[['issue_d', 'policy_code']].dropna() # now two columns
         # print(apr_df.__len__) # 42,542 rows to 42,535 rows * DROPPED 7 na ROWS *
         apr_df = apr_df.groupby('issue_d').count().reset_index()
-        apr_df['dateTime'] = [dt.datetime.strptime(month_year,'%b-%y') for month_year in apr_df['issue_d']]
-        apr_df.set_index('dateTime', inplace=True) #move dT column to index
+        apr_df['year_month_dt'] = [dt.datetime.strptime(month_year,'%b-%y') for month_year in apr_df['issue_d']]
+        apr_df.set_index('year_month_dt', inplace=True) #move dT column to index
         apr_df.sort_index(inplace=True) #sort from earliest date to latest
         apr_df.drop(columns=['issue_d'], inplace=True)
+        apr_df = apr_df.rename(columns={'policy_code':'c0unt'})
         def approvedPrompt():
             print()
             print('-------------approvedDataFramer---------------')
@@ -53,11 +54,12 @@ def problem_2_mod(date_first = '2011-01', date_second = '2011-04'):
             pass
         
         return apr_df
-    approved_df = approvedDataFramer(prompt_results=True)
-    print(approved_df[date_first:date_second]['policy_code'])
+    # approved_df = approvedDataFramer(prompt_results=True)
+    # approved_df = approvedDataFramer()
+    # print(approved_df[date_first:date_second]['policy_code'])
     # -----------------------------------------------------------
 
-    def rejectedDataFramer(date_rej1='2011-01', date_rej2='2011-04', prompt_results=False):
+    def rejectedDataFramer(prompt_results=False):
         """"
         RETURNS A TAILOR-MADE DATAFRAME AS PER ASSIGNMENT REQUIREMENTS
         READS REJECTED LOAN APPLICATIONS DATASET of 755k ROWS        
@@ -85,7 +87,7 @@ def problem_2_mod(date_first = '2011-01', date_second = '2011-04'):
              dt.datetime.strptime(yearMonthString,'%Y-%m-%d') for yearMonthString in rej_df['year_month_Str']
         ]
         rej_df = rej_df.set_index('year_month_dt')[['Policy Code']]
-
+        rej_df = rej_df.rename(columns={'Policy Code':'c0unt'})
         def rejectedPrompt():
             print()
             print('-------------rejectedDataFramer---------------')
@@ -105,16 +107,101 @@ def problem_2_mod(date_first = '2011-01', date_second = '2011-04'):
             pass
 
         return rej_df
+    
+    # # info abt dataframe first and last rows etc. if set True
+    
+    def list_all_results(prompt_results=False):
+        approved_df = approvedDataFramer(prompt_results=True)
+        rejected_df = rejectedDataFramer(prompt_results=True)
+        # try extracting first digits of timestamp and use str instead of datetime
+        date_list_timestamps = list(approved_df[date_first:date_second]['c0unt'].index)
+        date_list_string = [ str(date_secondStr)[:10] for date_secondStr in date_list_timestamps]
+        # count of applications approved
+        appCount_list = list(approved_df[date_first:date_second]['c0unt'])
+        # count of applications rejected
+        rejCount_list = list(rejected_df[date_first:date_second]['c0unt'])
+        # total count of loan applicants
+        total_list = [
+            int(appCount+rejCount) for appCount, rejCount in zip(appCount_list,rejCount_list)
+        ]
+        # percentage of loans approved
+        ratioApproved_list = [
+            float(appCount/totalCount).__round__(2) for appCount, totalCount in zip(appCount_list, total_list)
+        ]
+        # percentage of loans rejected
+        ratioRejected_list = [
+            float(rejCount/totalCount).__round__(2) for rejCount, totalCount in zip(rejCount_list, total_list)
+        ]
+        print()
+        print("date as string: ")
+        print(date_list_string) # preferred since easier to work with
+        print()
+        print("approved loans:")
+        print(ratioApproved_list)
+        print()
+        print("rejected loans:")
+        print(ratioRejected_list)
+        print()
+        print("approved loans: ")
+        print(appCount_list)
+        print()
+        print("rejected applications:")
+        print(rejCount_list)
+        print()
 
+        final_results_listed = []
+        final_results_listed.append(date_list_string)
+        final_results_listed.append(ratioApproved_list)
+        final_results_listed.append(appCount_list)
+        final_results_listed.append(ratioRejected_list)
+        final_results_listed.append(rejCount_list)
+        final_results_listed.append(total_list)
+        return final_results_listed
 
+    MASTER_LIST = list_all_results()
 
-    rejected_df = rejectedDataFramer(prompt_results=True)
-    return None
-# -----------------test--------------------
-problem_2_mod() 
+    if prompt_master == True:
+        for i in range(len(MASTER_LIST[0])):
+            print()
+            print(MASTER_LIST[0][i])
+            print("-Approved")
+            print(" |percentage: {:,.0%}".format(MASTER_LIST[1][i]))
+            print(" |{:,} of {:,}".format(MASTER_LIST[2][i],MASTER_LIST[5][i]))
+            print("-Rejected")
+            print(" |percentage: {:,.0%}".format(MASTER_LIST[3][i]))
+            print(" |count {:,} of {:,}".format(MASTER_LIST[4][i],MASTER_LIST[5][i]))
+            print()            
+    else:
+        pass
 
-# test_date =  '2009-10'
-# test_date2 = '2010-02'
-# problem_2_mod(test_date, test_date2) 
+    def buildA_dict():
+        """
+        MODIFY MASTER_LIST() TO RETURN A DICTIONARY INSTEAD
+        """
+        
+        MASTER_LIST = list_all_results()
+
+        for i in range(len()):
+            oKy = "{}".format(MASTER_LIST[0][i])
+            o1 = "{:,.0%}".format(MASTER_LIST[1][i])
+            o2 = "{:,}".format(MASTER_LIST[2][i])
+            o3 = "{:,.0%}".format(MASTER_LIST[3][i])
+            o4 = "{:,} of {:,}".format(MASTER_LIST[4][i])
+            o5 = "{:,}".format(MASTER_LIST[5][i])
+            dictFinal = {
+                'Date' : oKy,
+                '' : o1,
+                '' : o2,
+                '' : o3,
+                '' : o4,
+                '' : o5
+            }
+
+        print(dictFinal)
+        return None
+
+    return MASTER_LIST
 # -----------------------------------------
-
+# -----------------test--------------------
+problem_2_mod(prompt_master=True)
+# -----------------------------------------
