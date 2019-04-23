@@ -9,7 +9,7 @@ from interview01_functions import (
 )
 
 # THIS TIME TRYING TO CODE THE SIMPLEST TO WRITE/FASTEST TO RUN FUNCTION FOR COMPETITIVE EDGE ON INT'V
-def problem_2_mod(date_first = '2011-01', date_second = '2011-04', prompt_master = False):
+def problem_2_mod(date_first = '2011-01', date_second = '2011-04', prompt_master = False, dict_final = False):
     """
     - Accepts a date range and returns a dictionary of the percentage of loans approved over that time period.
     - Aggregates results by month, and includes the entire month if any part of it is in the request. 
@@ -113,9 +113,12 @@ def problem_2_mod(date_first = '2011-01', date_second = '2011-04', prompt_master
     def list_all_results(prompt_results=False):
         approved_df = approvedDataFramer(prompt_results=True)
         rejected_df = rejectedDataFramer(prompt_results=True)
+
         # try extracting first digits of timestamp and use str instead of datetime
         date_list_timestamps = list(approved_df[date_first:date_second]['c0unt'].index)
         date_list_string = [ str(date_secondStr)[:10] for date_secondStr in date_list_timestamps]
+        date_display_list = [ date[:7] for date in date_list_string ]
+
         # count of applications approved
         appCount_list = list(approved_df[date_first:date_second]['c0unt'])
         # count of applications rejected
@@ -133,8 +136,8 @@ def problem_2_mod(date_first = '2011-01', date_second = '2011-04', prompt_master
             float(rejCount/totalCount).__round__(2) for rejCount, totalCount in zip(rejCount_list, total_list)
         ]
         print()
-        print("date as string: ")
-        print(date_list_string) # preferred since easier to work with
+        print("date as yr-mo:")
+        print(date_display_list) # preferred since easier to work with
         print()
         print("approved loans:")
         print(ratioApproved_list)
@@ -150,7 +153,8 @@ def problem_2_mod(date_first = '2011-01', date_second = '2011-04', prompt_master
         print()
 
         final_results_listed = []
-        final_results_listed.append(date_list_string)
+        final_results_listed.append(date_display_list)
+        # final_results_listed.append(date_list_string)
         final_results_listed.append(ratioApproved_list)
         final_results_listed.append(appCount_list)
         final_results_listed.append(ratioRejected_list)
@@ -158,50 +162,54 @@ def problem_2_mod(date_first = '2011-01', date_second = '2011-04', prompt_master
         final_results_listed.append(total_list)
         return final_results_listed
 
-    MASTER_LIST = list_all_results()
+    _master_list = []
+    _master_list = list_all_results()
 
     if prompt_master == True:
-        for i in range(len(MASTER_LIST[0])):
+        for i in range(len(_master_list[1])):
             print()
-            print(MASTER_LIST[0][i])
-            print("-Approved")
-            print(" |percentage: {:,.0%}".format(MASTER_LIST[1][i]))
-            print(" |{:,} of {:,}".format(MASTER_LIST[2][i],MASTER_LIST[5][i]))
-            print("-Rejected")
-            print(" |percentage: {:,.0%}".format(MASTER_LIST[3][i]))
-            print(" |count {:,} of {:,}".format(MASTER_LIST[4][i],MASTER_LIST[5][i]))
+            print("Yr-Mth:     {}".format(_master_list[0][i]))
+            print(" - Approved")
+            print("     |percentage: {:,.0%}".format(_master_list[1][i]))
+            print("     |{:,} of {:,}".format(_master_list[2][i],_master_list[5][i]))
+            print(" - Rejected")
+            print("     |percentage: {:,.0%}".format(_master_list[3][i]))
+            print("     |count {:,} of {:,}".format(_master_list[4][i],_master_list[5][i]))
             print()            
     else:
         pass
 
-    def buildA_dict():
-        """
-        MODIFY MASTER_LIST() TO RETURN A DICTIONARY INSTEAD
-        """
         
-        MASTER_LIST = list_all_results()
 
-        for i in range(len()):
-            oKy = "{}".format(MASTER_LIST[0][i])
-            o1 = "{:,.0%}".format(MASTER_LIST[1][i])
-            o2 = "{:,}".format(MASTER_LIST[2][i])
-            o3 = "{:,.0%}".format(MASTER_LIST[3][i])
-            o4 = "{:,} of {:,}".format(MASTER_LIST[4][i])
-            o5 = "{:,}".format(MASTER_LIST[5][i])
+    if dict_final == True:
+        _master_list = list_all_results()
+        for i in range(len(_master_list[1]) - 1):
+            
+            out_keyDate = "{}".format(_master_list[0][i])
+            out_appPerc = "{:,.0%}".format(_master_list[1][i])
+            out_appCnt = "{:,}".format(_master_list[2][i])
+            out_rejPerc = "{:,.0%}".format(_master_list[3][i])
+            out_rejCnt = "{:,}".format(_master_list[4][i])
+            out_totalCnt = "{:,}".format(_master_list[5][i])
+            
             dictFinal = {
-                'Date' : oKy,
-                '' : o1,
-                '' : o2,
-                '' : o3,
-                '' : o4,
-                '' : o5
+                'Date' : out_keyDate,
+                'Approved_Ratio' : out_appPerc,
+                'Num_LoansApproved' : out_appCnt,
+                'Rejected_Ratio' : out_rejPerc,
+                'Num_LoansRejected' : out_rejCnt,
+                'Num_LoansTotal' : out_totalCnt
             }
+            print(dictFinal)
+        return dictFinal
+    else:
+        pass
 
-        print(dictFinal)
-        return None
 
-    return MASTER_LIST
+    return _master_list
 # -----------------------------------------
 # -----------------test--------------------
-problem_2_mod(prompt_master=True)
+returns_dict = problem_2_mod(prompt_master=True, dict_final=True)
 # -----------------------------------------
+print(type(returns_dict))
+

@@ -1,0 +1,23 @@
+Column Heading,Value Description,Data Type
+Incident Number,Unique incident identification number,Text
+Property Code,Code used to identify the type of property where the incident occurred,Text
+Property Use Description,The description associated with the property code,Text
+Property Use Category,The category associated with the property code,Text
+Incident Code,The code used to identify the incident type,Number
+Primary Type Category,The primary category of the incident type from incident code,Text
+Sub Type Category,A secondary descripter of the incident type from incident code,Text
+Aid Given or Received,Information on whether outside agencies assisted or received assistance for the incident,Text
+Incident Date and Time,The date and time stamp assigned to the incident,Date/Time
+First Unit Dispatched,The date and time the first unit was assigned or dispatched to the incident,Date/Time
+First Unit Arrived,The date and time the first unit arrived at the incident,Date/Time
+All Units Clear,The date and time the last unit cleared the incident,Date/Time
+Total First Unit Response Time,The [h}:mm:ss between when the first unit was dispatched and then arrived.  A null value normally indicates the units were cancelled prior to arrival and is indicated as a 611 incident type.,Time
+Total Time Committed,The [h]:mm:ss between when the first unit was dispatched and the last unit cleared,Time
+Shift,The shift that was on duty and responded when the incident occured,Text
+Incident Location Area,The numerical representation of the geographical area where the incident was located - the text information indicates the agency that received aid,Text
+Number of Apparatus Assigned,Total number of vehicles (apparatus) assigned to the incident,Number
+Number of Personnel Assigned,The total number of persons assigned to the incident,Number
+Property Value,The dollar value of the building involved in certain incidents.  Information is only required for certain incident types.  $0.00 may indicate no information collected.,Number
+Property Lost,The dollar loss value of the building involved in certain incidents.  Information is only required for certain incident types.  $0.00 may indicate no information collected.,Number
+Contents Value,The dollar value of the contents of a building involved in certain incidents.  Information is only required for certain incident types.  $0.00 may indicate no information collected.,Number
+Contents Lost,The dollar loss value of the contents building involved in certain incidents.  Information is only required for certain incident types.  $0.00 may indicate no information collected.,Number
