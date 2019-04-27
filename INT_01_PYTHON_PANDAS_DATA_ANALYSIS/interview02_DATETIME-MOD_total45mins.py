@@ -9,7 +9,7 @@ from interview01_functions import (
 )
 
 # THIS TIME TRYING TO CODE THE SIMPLEST TO WRITE/FASTEST TO RUN FUNCTION FOR COMPETITIVE EDGE ON INT'V
-def problem_2_mod(date_first = '2011-01', date_second = '2011-04', prompt_master = False, dict_final = False):
+def problem_2_mod(date_first = '2011-01', date_second = '2011-04', display_logs = False, display_dictionary = False):
     """
     - Accepts a date range and returns a dictionary of the percentage of loans approved over that time period.
     - Aggregates results by month, and includes the entire month if any part of it is in the request. 
@@ -165,7 +165,7 @@ def problem_2_mod(date_first = '2011-01', date_second = '2011-04', prompt_master
     _master_list = []
     _master_list = list_all_results()
 
-    if prompt_master == True:
+    if display_logs == True:
         for i in range(len(_master_list[1])):
             print()
             print("Yr-Mth:     {}".format(_master_list[0][i]))
@@ -181,7 +181,7 @@ def problem_2_mod(date_first = '2011-01', date_second = '2011-04', prompt_master
 
         
 
-    if dict_final == True:
+    if display_dictionary == True:
         _master_list = list_all_results()
         for i in range(len(_master_list[1]) - 1):
             
@@ -209,7 +209,7 @@ def problem_2_mod(date_first = '2011-01', date_second = '2011-04', prompt_master
     return _master_list
 # -----------------------------------------
 # -----------------test--------------------
-returns_dict = problem_2_mod(prompt_master=True, dict_final=True)
+returns_dict = problem_2_mod(display_logs=True, display_dictionary=True)
 # -----------------------------------------
 print(type(returns_dict))
 

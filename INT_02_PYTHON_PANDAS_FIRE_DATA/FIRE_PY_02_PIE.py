@@ -1,4 +1,3 @@
-# Sub Type Category # ALARM	2,957 # ASSIST	842 # BRUSH FIRE	172 # EMS	9,606 # GOOD INTENT	1,755 # HAZARDOUS CONDITION	409 # HAZARDOUS MATERIAL	372 # Grand Total	18,145
 import os
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -65,6 +64,9 @@ def pieMakerFireType(_df=fireTypeCounter()):
     ax1.legend(loc='best')
     ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
     plt.style.use('fivethirtyeight')
+    plt.rcParams['font.size'] = 8
+    ax1.legend(frameon= False)
+    # print(plt.rcParams.keys())
     plt.show()
     return None
 
